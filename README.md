@@ -12,4 +12,4 @@ Calibration constants in main.ino should be adjusted to suit the actual current 
 ##Output
 Measured data will be output shown on LCD dislay and sent to serial port.
 
-
+![Monitor in action](/images/working.jpg?raw=true "Monitor in action")
