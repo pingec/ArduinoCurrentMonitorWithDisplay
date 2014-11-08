@@ -46,6 +46,9 @@ EnergyMonitor emon1;
 EnergyMonitor emon2;   
 EnergyMonitor emon3;   
 
+const int alarm_threshold = 25;
+const int alarm_pin = 3;
+
 void setup() {
   Serial.begin(9600);
   
@@ -55,6 +58,10 @@ void setup() {
   emon2.current(1, 29 * 1.01); 
   // Current: input pin, calibration. Cur Const= Ratio/BurdenR. 1800/62 = 29.
   emon3.current(2, 29 * 1.01); 
+  
+  // initialize the digital pin as an output (for alarm siren).
+  pinMode(3, OUTPUT);  
+  digitalWrite(alarm_pin, LOW); 
   
   // set up the LCD's number of columns and rows: 
   lcd.begin(16, 2);
@@ -67,6 +74,13 @@ void loop() {
   double Irms = emon1.calcIrms(1480);
   double Irms2 = emon2.calcIrms(1480);
   double Irms3 = emon3.calcIrms(1480);
+  
+  if(Irms > alarm_threshold || Irms2 > alarm_threshold || Irms3 > alarm_threshold){
+    digitalWrite(alarm_pin, HIGH);
+  }
+  else{
+    digitalWrite(alarm_pin, LOW);
+  }
   
   //Serial.print(Irms*230.0);	       // Apparent power
 
